@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VALENTINE-INATOR 3000 ❤️</title>
+    <style>
+        :root {
+            --pink: #ff0a54;
+            --deep-red: #800f2f;
+            --bg: #fff0f3;
+        }
+
+        /* 1. HEART CURSOR */
+        * {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:24px'><text y='24'>❤️</text></svg>"), auto !important;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            background-color: var(--bg);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 2. CHAOTIC BACKGROUND ANIMATIONS */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .valentine-float {
+            position: absolute;
+            animation: move linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes move {
+            from { transform: translateY(110vh) rotate(0deg); }
+            to { transform: translateY(-20vh) rotate(360deg); }
+        }
+
+        /* 3. THE FORM CARD */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: clamp(20px, 5vw, 30px);
+            border-radius: 40px;
+            box-shadow: 0 0 50px rgba(255, 10, 84, 0.3);
+            border: 8px double var(--pink);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            margin: 20px;
+        }
+
+        h1 { 
+            color: var(--pink); 
+            text-shadow: 2px 2px #ffccd5; 
+            margin-bottom: 5px;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+        }
+        .subtitle { 
+            font-size: clamp(0.7rem, 2.5vw, 0.8rem); 
+            color: var(--deep-red); 
+            margin-bottom: 20px; 
+        }
+
+        .q-box { text-align: left; margin-bottom: 15px; }
+        label { 
+            display: block; 
+            font-weight: bold; 
+            color: var(--deep-red); 
+            font-size: clamp(0.8rem, 2vw, 0.9rem); 
+            margin-bottom: 5px; 
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--pink);
+            border-radius: 15px;
+            box-sizing: border-box;
+            background: #fff;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        button {
+            background: linear-gradient(to right, #ff0a54, #ff7096);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: bold;
+            border-radius: 50px;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(255, 10, 84, 0.4);
+            transition: 0.2s;
+        }
+
+        button:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        /* 4. LOADING OVERLAY */
+        #loadingOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #loadingOverlay h2 {
+            margin-top: 20px;
+            color: var(--pink);
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            padding: 0 10px;
+        }
+
+        #loadingOverlay p {
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            padding: 0 10px;
+        }
+
+        .spinner {
+            width: clamp(60px, 15vw, 80px);
+            height: clamp(60px, 15vw, 80px);
+            border: 10px solid #f3f3f3;
+            border-top: 10px solid var(--pink);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* 5. THE PRANK & POPPERS */
+        #prankOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff;
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .job-text {
+            font-size: clamp(2.5rem, 12vw, 6rem);
+            font-weight: 900;
+            color: black;
+            text-align: center;
+            animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            line-height: 1.2;
+            padding: 0 10px;
+        }
+
+        #prankOverlay p {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            margin-top: 20px;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        #randomImage {
+            max-width: min(500px, 90vw);
+            max-height: min(400px, 50vh);
+            margin-top: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: block;
+        }
+
+        @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+        .confetti {
+            position: absolute;
+            font-size: clamp(2rem, 6vw, 4rem);
+            animation: fall 4s forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(120vh) rotate(1080deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-layer" id="bgLayer"></div>
+
+    <div class="card">
+        <h1>💖 Valentine AI</h1>
+        <p class="subtitle">Find your perfect match with AI-powered compatibility.</p>
+        
+        <form id="v-form">
+            <div class="q-box">
+                <label>Your Age:</label>
+                <input type="number" placeholder="Enter your age" min="18" max="99" required>
+            </div>
+            <div class="q-box">
+                <label>Your Ideal Date Type:</label>
+                <select required>
+                    <option value="" disabled selected>Choose your ideal date...</option>
+                    <option>Candlelit Dinner</option>
+                    <option>Stargazing</option>
+                    <option>Netflix & Chill</option>
+                    <option>Adventure/Hiking</option>
+                </select>
+            </div>
+            <div class="q-box">
+                <label>What's your Love Language?</label>
+                <select required>
+                    <option value="" disabled selected>Select your love language...</option>
+                    <option>Words of Affirmation</option>
+                    <option>Acts of Service</option>
+                    <option>Receiving Gifts</option>
+                    <option>Quality Time</option>
+                    <option>Physical Touch</option>
+                </select>
+            </div>
+            <div class="q-box">
+                <label>Describe your dream partner:</label>
+                <input type="text" placeholder="Kind, funny, tall..." required>
+            </div>
+            <button type="submit">FIND MY VALENTINE ❤️</button>
+        </form>
+    </div>
+
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+        <h2 style="margin-top:20px; color: var(--pink)" id="load-text">Connecting to Love-Server...</h2>
+        <p id="sub-load">Analysing 4.2 billion profiles...</p>
+    </div>
+
+    <div id="prankOverlay">
+        <div class="job-text">GET A JOB. 🫵🤣</div>
+        <img id="randomImage" src="" alt="Motivation">
+        <p>Redirecting you to your real soulmate...</p>
+    </div>
+
+    <audio id="prankAudio" preload="auto">
+        <source src="audio.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Test audio loading
+        const prankAudio = document.getElementById('prankAudio');
+        prankAudio.addEventListener('loadeddata', () => {
+            console.log('✓ Audio file loaded successfully!');
+        });
+        prankAudio.addEventListener('error', (e) => {
+            console.error('✗ Audio failed to load:', e);
+        });
+        
+        // Generate Background Chaos
+        const bg = document.getElementById('bgLayer');
+        const icons = ['❤️', '💖', '💘', '🌹', '✨', '🍭', '🧸'];
+        for(let i=0; i<60; i++) {
+            let h = document.createElement('div');
+            h.className = 'valentine-float';
+            h.innerText = icons[Math.floor(Math.random()*icons.length)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 30 + 10) + 'px';
+            h.style.animationDuration = (Math.random() * 5 + 2) + 's';
+            h.style.animationDelay = (Math.random() * 5) + 's';
+            bg.appendChild(h);
+        }
+
+        // Logic
+        const form = document.getElementById('v-form');
+        const loader = document.getElementById('loadingOverlay');
+        const loadText = document.getElementById('load-text');
+        const subLoad = document.getElementById('sub-load');
+        const prank = document.getElementById('prankOverlay');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loader.style.display = 'flex';
+
+            // Fake Loading Sequence
+            setTimeout(() => { loadText.innerText = "Analyzing your preferences..."; subLoad.innerText = "Processing compatibility factors..."; }, 1000);
+            setTimeout(() => { loadText.innerText = "Matching with potential partners..."; subLoad.innerText = "Scanning 4.2 billion profiles..."; }, 2500);
+            setTimeout(() => { loadText.innerText = "Calculating compatibility score..."; subLoad.innerText = "Finding your perfect match..."; }, 4000);
+            
+            // The Reveal
+            setTimeout(() => {
+                loader.style.display = 'none';
+                prank.style.display = 'flex';
+                
+                // Play audio with better handling
+                const audio = document.getElementById('prankAudio');
+                audio.volume = 1.0; // Set volume to maximum
+                
+                // Try to play audio
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Audio playing successfully!');
+                    }).catch(err => {
+                        console.error('Audio play failed:', err);
+                        // Try again after a tiny delay
+                        setTimeout(() => {
+                            audio.play().catch(e => console.error('Second attempt failed:', e));
+                        }, 100);
+                    });
+                }
+                
+                // Select random image (1-4)
+                const randomImageNum = Math.floor(Math.random() * 4) + 1;
+                const imgElement = document.getElementById('randomImage');
+                const imagePath = `image${randomImageNum}.jpg`;
+                
+                console.log('Loading image:', imagePath);
+                
+                imgElement.src = imagePath;
+                imgElement.onerror = function() {
+                    console.error('Failed to load:', imagePath);
+                    console.log('Make sure image1.jpg to image4.jpg are in the same folder as index.html');
+                };
+                
+                spawnConfetti();
+                
+                // Final Redirect
+                setTimeout(() => {
+                    window.location.href = "https://backprop.site/jobs";
+                }, 2500);
+            }, 5500);
+        });
+
+        // Party Popper Effect - BIGGER AND BETTER
+        function spawnConfetti() {
+            const emojis = ['🎉', '🥳', '💸', '💼', '📈', '✨', '🎊', '🏆', '💰', '👔'];
+            for(let i=0; i<200; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.top = '-100px';
+                c.style.animationDelay = (Math.random() * 1.5) + 's';
+                document.getElementById('prankOverlay').appendChild(c);
+            }
+        }
+    </script>
+</body>
+</html>
